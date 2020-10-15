@@ -1,0 +1,74 @@
+User Story / Gameplay
+    1. Describe the gameplay.
+        The gameplay of Pong involves a moving object- a "ping pong ball"- and two "paddles".
+        The two paddles are controlled by individual players. The pong ball is automated by
+        the code. When the pong ball "hits" a paddle, it reverses direction. The objective
+        is for each individual player to keep the ping pong ball on the board. If a player 
+        fails to hit the ping pong ball back to the other sidewith their paddle, it will 
+        go off the screen, and the other player will recieve a point. 
+    2. What are the conditions when the game begins?
+        The scoreboard for each player is set at zero. The ping pong ball and the paddles 
+        are all stationary; the ping pong ball is directly at the center point, and the 
+        paddles are centered, but one is to the left and one is to the right of the screen.
+        The ping pong ball will automatically begin moving; the paddles will have to wait for
+        player input.
+    3. Does the game have an end? if so, what are the conditions for when it ends?
+        The game will end when one player reaches 10 points, when the ping pong ball
+        has gone off of their opponent's side of the screen 10 times.
+    4. What if statements will there be?
+        There will be an if statement that will keep track of the amount of times the ball
+        has gone off which edge, and update the score accordingly. The code for the endgame 
+        could be included in that if statement. There will also be an if statement resetting
+        the board with each new point made. 
+
+Visual Game Components:
+    1. What are the visual game components?
+        The five visual game components are the board, the ping pong ball, each of the
+        two paddles, and the scoreboard. The board will remain static on the screen and will
+        not change position. The scoreboard will remain in the same position, but will update each 
+        time the ping pong ball goes off the screen. The ping pong ball and the paddles will
+        both be animated.
+    2. What data will you need to manage each game component?
+        2a. The board is a static component. Nothing about it will update; it is self contained
+            in the css. However, I will need data values keeping track of the borders of the
+            box so the code can identify when the pong ball will go off.
+        2b. For the scoreboard, there will need to be a points value that updates when the pong
+            ball goes off one side. It is does not change position, so it will not need position 
+            variables.
+        2c. The ping pong ball will need vertical and position variables as it will be changing 
+            position along the 'x and y axes'. I could potentially code it to speed up to 
+            increase difficulty as the game goes on. Furthermore, I will need to have a value
+            identifying the borders of the pong ball so I can code my collision.
+        2d. The paddles will need only vertical position variables, as they will
+            not move along the 'x axis'. Like with the pong ball, I will need to have a 
+            value keeping track of the borders for the collisions. 
+
+Events / Logic
+    1. What events will occur in this game?
+        There will be a start event that begins the game when a button is clicked. 
+        There will also need to be an end game event.
+        There will need to be events to change the position of each paddles. There will
+        have to be two of these; one for player 1 and one for player 2. One event will
+        respond to the WASD keys and one to the arrow keys. 
+        Since the only user input is from the click to start the game anf from the keys 
+        pressed to change the paddle position, those are my only two events.
+    2. How do those events affect the date of the program?
+        The 'begin game' event will get rid of the 'start menu' css code and start running
+        the core pong program; that is, the ping pong ball will start moving, and the 
+        paddles will respond to user input. The 'end game' event will put the ending css
+        on the screen and freeze the code, so the pong ball will not move and the paddles 
+        will not respond to input.
+        The key events will change the position values for their corresponding paddles.
+    3. For each event, write out the high-level logic of what will happen.
+        3a. START GAME
+            On clicking the "begin" button"
+                > remove beginning css
+                > activate keyboard events for paddles
+                > generate number that will determine starting direction of pong ball
+                > start moving pong ball
+        3b. move paddles
+            > if up/w key is pressed, change the position of the paddle 5 px up
+            > if up/w key is pressed, change the position of the paddle 5 px down
+        3c. END GAME
+            > freeze positions for paddles and pong ball
+            > display winner message css

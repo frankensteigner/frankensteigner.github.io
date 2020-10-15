@@ -1,0 +1,21 @@
+1. How is the jQuery file being loaded into this project: direct download or Content Delivery Network (CDN)?
+        The jQuery file is being loaded into this project via a CDN. Since jQuery is such a large file, it is more effective to
+        access it through a CDN than to download all of it directly to one's computer. 
+
+2. If you load the index.js file before the jquery file our program doesn’t work. Why? 
+   Open the preview in a new tab and look at the console to help you find out why.
+        Parts of the code in index.js- e.g., the click function- need to access jQuery in order to run. If
+        they are not accessed, the index.js file will not be able to run that code. 
+
+3. In your opinion, what are the pros of refactoring your HTML, CSS, and JavaScript into separate files? What are the cons?
+        Refactoring HTML, CSS, and JavaScript into seperate files makes it easier to differentiate the parts of the code 
+        that handle different things. When one needs to edit the text of a webpage, for example, instead of sifting through
+        all their extra code to get to the html, they can simply access the file with all of it. However, there can be 
+        issues with importing the files into each other, and making sure everything runs  
+        smoothly across the code. 
+
+4. In your opinion, what are the pros of refactoring your JavaScript code into separate functions? What are the cons?
+        Refactoring JavaScript into seperate functions allows for code to be more organised into seperate parts. 
+        It also means parts of a function canbe reused in other functions that perform the same action without rewriting the code. 
+        It can, however, in some cases make code more complicated; not all functions need to be refactored. Some are
+        simple and self contained enough already. 
