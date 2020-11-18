@@ -127,9 +127,6 @@ function runProgram(){
   }
 
   newFrame();
-
-  /// COLLISION DETECTORS ///
-
   function collideCheck() {
 
   }
