@@ -11,10 +11,19 @@
   </head>
   
   <body>
+    <!-- this is the board that the snake and apple appear on -->
     <div id='board'>
       <div id='snake'></div>
       <div id='apple'></div>
     </div>
-    <p id='score'>SCORE:</p>
+    <!-- this is the score that appears during the game --> 
+    <p id="gamescore" class='score'>SCORE:</p>
+    <!-- this will display when the game ends -->
+    <div id='gameover'>
+        <p> GAME OVER!</p>
+        <p class='score'>SCORE:</p>
+        <button type="button" id='button'>PLAY AGAIN?</button>
+    </div>
+    
   </body>
 </html>

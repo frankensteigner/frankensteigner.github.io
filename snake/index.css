@@ -20,6 +20,12 @@ body {
 /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
 }
 
+.body {
+    width: 20px;
+    height: 20px;
+    background-color: lightgreen;
+}
+
 #apple {
   background-color: salmon;
   width: 20px;
@@ -29,7 +35,40 @@ body {
     top: 100px;    
 }
 
-#score {
-    font-family: 'Times New Roman', Times, serif;
+/* all score displays will have this class */
+.score {
+    font-family: "Courier New", Courier, monospace;
     font-size: 40px;
+}
+
+/* when the game is running, the score will be displayed on the bottom */
+#gamescore{
+    opacity: 1;
+}
+
+/* when the game ends, display this screen  */
+#gameover {
+  width: 440px;
+  height: 440px;
+  border: 1px solid white;
+  background-color: skyblue;
+  position: absolute; /* Sit on top of the page content */
+  opacity: 0.0;
+  top: 8px;
+  left: 8px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 60px;
+  text-align: center;
+}
+
+#button {
+  background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
