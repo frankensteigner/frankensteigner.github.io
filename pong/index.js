@@ -3,9 +3,11 @@
 $(document).ready(runProgram); // wait for the HTML / CSS elements of the page to fully load, then execute runProgram()
   
 function runProgram(){
-  ////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////// SETUP /////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+
+                /* //////////////////////////////////////////////////////////////////////////
+                                            SETUP
+                                initial var declarations go here!
+                ////////////////////////////////////////////////////////////////////////// */ 
 
   // Constant Variables
     var FRAMES_PER_SECOND_INTERVAL = 1000 / 60;
@@ -44,36 +46,6 @@ function runProgram(){
     }
     startbutton.addEventListener("click", start);
 
-    // SCOREBOARD
-            // put scoreboard update code here
-
-    function increasePointsLeft() {
-                pointsLeft += 1;
-                $('#scoreboard').text(pointsLeft);
-                pointsLeft;
-            }
-
-    function increasePointsRight() {
-                pointsRight += 1;
-                $('#scoreboard').text(pointsRight);
-                pointsRight;
-            }
-
-    function keepScreen(newScoreLeft) {
-                if (positionX > BOARD_WIDTH) {
-					increasePointsLeft;
-				}
-				else if (positionX < 0) {
-					increasePointsRight
-				}
-            }
-
-    function updateScoreBoard() {
-        keepScreen();
-    }
-
-    // css information extractor 
-
     function takeIn(element) {
         var cssExtract = {
         id: element,
@@ -93,15 +65,74 @@ function runProgram(){
     var leftPaddle = takeIn("#leftPaddle");
 
   // one-time setup
-    var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
+    var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 fps)
     $(document).on('keydown', handleKeyDown);                           
     $(document).on('keyup', handleKeyUp);
     $(document).on('keydown', handleKeyDownWASD);                       
     $(document).on('keyup', handleKeyUpWASD);
 
-  ////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////// CORE LOGIC ///////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+                /* //////////////////////////////////////////////////////////////////////////
+                                            CORE LOGIC
+                                All functions called in newFrame go here!
+                ////////////////////////////////////////////////////////////////////////// */ 
+
+    /* 
+        Updates the positions of the paddles on screen
+    */
+    function newFrame() {
+        repositionRightPaddle();
+        redrawRightPaddle();
+        repositionLeftPaddle();
+        redrawLeftPaddle();
+        repositionPingPong();
+        redrawPingPong();
+        pongBlock();
+        keepScreen();
+        checkEndgame()
+    }
+  
+    newFrame(); 
+
+// keep in screen
+
+        function keepScreen() {
+                        // this code will check if the ping pong goes off the screen vertically
+                        if (pingPong.y <= 0) {
+                            pingPong.speedY = -pingPong.speedY;
+                        } else if (pingPong.y >= screenHeight) {
+                            pingPong.speedY = -pingPong.speedY;
+                        } 
+                        
+                        // this code will check if the ping pong goes off the screen horizontally
+                        else if (pingPong.x = 0) {
+                            increasePointsRight();
+                            $('#pingPong').css("left", "50%");
+                            // pingPong.speedX = - pingPong.speedX;
+                        } else if (pingPong.x = ScreenWidth) {
+                            increasePointsLeft();
+                            $('#pingPong').css("left", "50%");
+                            // pingPong.speedX = - pingPong.speedX;
+                        } 
+
+                        // these functions will stop the paddles from going offscreen
+                        else if (rightPaddle.y >= screenHeight) {
+                            rightPaddle.speedY = 0;
+                        } else if (rightPaddle.y <= 0)  {
+                            rightPaddle.speedY = 0;
+                        } else if (leftPaddle.y >= screenHeight) {
+                            leftPaddle.speedY = 0;
+                        } else if (leftPaddle.y <= 0)  {
+                            leftPaddle.speedY = 0;
+                        } 
+                    }
+
+    function checkEndgame() {
+        if (pointsLeft > 10) {
+            endGame();
+        } else if (pointsRight > 10) {
+            endGame();
+        }
+    }
 
   //PINGPONG MOVEMENT
 
@@ -111,12 +142,77 @@ function runProgram(){
         if (number % 2 == 0) {
             console.log("The number is even.");
             pingPong.speedX = 5;
+            pingPong.speedY = 1;
+            // pingPong.speedY = 5;
         } else if (number % 2 == 1) {
             console.log("The number is odd.");
             pingPong.speedX = -5;
+            pingPong.speedY = -1;
+            // pingPong.speedY = -5;
         }
         console.log("ping pong function called");
     }
+
+
+    // checks for collision 
+
+    function doCollide(ball, paddle) {
+
+        // TODO: calculate and store the remaining
+        // sides of the ball
+        ball.leftX = ball.x;
+        ball.topY = ball.y;
+        ball.rightX = ball.x + ball.width;
+        ball.bottomY = ball.y + ball.height; 
+    
+        // TODO: Do the same for square2
+        paddle.leftX = paddle.x;
+        paddle.topY = paddle.y;
+        paddle.rightX = paddle.x + paddle.width;
+        paddle.bottomY = paddle.y + paddle.height; 
+	
+        if (ball.rightX > paddle.leftX && ball.leftX && paddle.rightX && ball.topY < paddle.bottomY
+         && paddle.bottomY > ball.topY) {
+            console.log("overlap");
+            //pingPong.speedX = pingPong.speedX * -1;
+            return true;
+            } else { 
+                //pingPong.speedX = pingPong.speedX * 1;
+                console.log("no overlap");
+                return false;
+            }
+    }
+
+    function pongBlock() {
+        if ((doCollide(pingPong, rightPaddle)) === true) {
+            pingPong.speedX = pingPong.speedX;
+        } else if ((doCollide(pingPong, leftPaddle)) === true) {
+            pingPong.speedX = pingPong.speedX;
+        } else 
+            console.log("no paddle collide");
+    }
+
+    // SCOREBOARD
+        // put scoreboard update code here
+
+    function increasePointsLeft() {
+                pointsLeft = (pointsLeft + 1);
+                $('#leftScore').text(pointsLeft);
+            }
+
+    function increasePointsRight() {
+                pointsRight += 1;
+                $('#rightScore').text(pointsRight);
+                pointsRight;
+            }
+  
+
+
+                /* //////////////////////////////////////////////////////////////////////////
+                                            HELPER FUNCTIONS
+                                All functions NOT called in newFrame go here!
+                ////////////////////////////////////////////////////////////////////////// */
+
 
     /* 
     these handleKey functions register to the console if the key is pressed and move the paddles accordingly
@@ -162,59 +258,6 @@ function runProgram(){
         }
     }
 
-    // checks for collision 
-
-    function doCollide(ball, paddle) {
-
-        // TODO: calculate and store the remaining
-        // sides of the ball
-        ball.leftX = ball.x;
-        ball.topY = ball.y;
-        ball.rightX = ball.x + ball.width;
-        ball.bottomY = ball.y - ball.height; 
-    
-        // TODO: Do the same for square2
-        paddle.leftX = paddle.x;
-        paddle.topY = paddle.y;
-        paddle.rightX = paddle.x + paddle.width;
-        paddle.bottomY = paddle.y - paddle.height; 
-
-        // TODO: Return true if they are overlapping, false otherwise
-	
-        if (ball.rightX > paddle.leftX && ball.leftX < paddle.rightX && ball.topY > paddle.bottomY
-         && paddle.bottomY < ball.topY) {
-            console.log("overlap");
-            pingPong.speedX = pingPong.speedX * -1;
-            return true
-            } else { 
-                pingPong.speedX = pingPong.speedX * 1;
-                console.log("no overlap");
-                return false
-                }
-            }
-
-        }
-
-  /* 
-  Updates the positions of the paddles on screen
-  */
-    function newFrame() {
-        repositionRightPaddle();
-        redrawRightPaddle();
-        repositionLeftPaddle();
-        redrawLeftPaddle();
-        repositionPingPong();
-        redrawPingPong();
-        updateScoreBoard();
-    }
-  
-    newFrame(); 
-
-
-  ////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
-
   
   function endGame() {
     // stop the interval timer
@@ -222,6 +265,9 @@ function runProgram(){
 
     // turn off event handlers
     $(document).off();
+
+    $("#endgame").css({opacity: 0.7});
+    $("#gameover").css({opacity: 0.1});
   }
   
 
@@ -251,4 +297,4 @@ function runProgram(){
         $("#pingPong").css("top", pingPong.y); // draws the box pingPong.y pixels away from 'top' location
         $("#pingPong").css("left", pingPong.x); // draws the box pingPong.x pixels away from 'left' location
     }
-
+}

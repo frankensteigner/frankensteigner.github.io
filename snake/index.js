@@ -4,7 +4,9 @@ $(document).ready(runProgram); // wait for the HTML / CSS elements of the page t
 
 // in theory this will run program again when play again button pressed. doesn't work yet! 
 // button.addEventListener("click", runProgram);
-  
+
+// button.addEventListener("click", playAgain);
+
 function runProgram(){
 
                 /* //////////////////////////////////////////////////////////////////////////
@@ -65,12 +67,37 @@ function runProgram(){
     // redrawGameItem();
     testRepositionGameItem();
     testRedrawGameItem();
-    keepScreen(); 
+    // keepScreen(); 
     eat()
     checkEndgame(); // comment this function out to remove endgame and have snake bounce off walls
+    button.addEventListener("click", playAgain);
   }
 
   newFrame();
+
+  function playAgain() {
+        // removes the game over screen
+        $("#gameover").css({opacity: 0});
+        // adds the score to below the screen
+        $("#gamescore").css({opacity: 1});
+        // removes the body pieces from the array
+        for (var i = (snake.length - 1); i > 0; i--) {
+            snake[i].pop;
+        }
+        // removes the generated body piece ids
+        for (var i = (snake.length - 1); i > 0; i--) {
+            $( ".body").remove();;
+        }
+        // sets snake head back to starting position
+        snake[0].positionX = 20;
+        snake[0].positionY = 20;
+        // resets event listeners
+        $(document).on();
+        // resets interval
+        setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);
+        // calls program function again
+        runProgram();
+    }
 
     // repositions the head of the snake
 
@@ -89,7 +116,7 @@ function runProgram(){
             snake[0].positionX += velocityX; // update the position of the head on x axis 
             snake[0].positionY += velocityY; // update the position of the head on the y axis
             // for loop will update the position of the body to be square in front of it, counting down to index 0 from the tail
-            for (var i = (snake.length - 1); i > 1; i--) {
+            for (var i = (snake.length - 1); i > 0; i--) {
                 console.log("updated indexed positions");
                 snake[i].positionX = snake[i-1].positionX;
                 snake[i].positionY = snake[i-1].positionY;
@@ -113,12 +140,13 @@ function runProgram(){
         } else if (snake.length > 1) {
             $("#snake").css("left", snake[0].positionX); // draws the head positionX pixels away from 'left' location
             $("#snake").css("top", snake[0].positionY); // draws the head positionY pixels away from 'top' location
+            // $("#snake2").css("top", snake[1].positionY); // DOESN'T WORK!!!!
             // for loop will redraw the body piece to be where the piece in front of it is, counting down from the tail
             for (var i = (snake.length - 1); i > 0; i--) {
-                $("#snake" + snake.length).css("left", snake[i - 1].positionX); 
-                $("#snake" + snake.length).css("top", snake[i - 1].positionY);
+                $("#snake" + (i + 1)).css("left", snake[i].positionX); 
+                $("#snake" + (i + 1)).css("top", snake[i].positionY);
             }
-            console.log("redrew body pieces");
+            console.log("redrew indexed body pieces");
         }
     }
 
@@ -154,13 +182,13 @@ function runProgram(){
 
     // // checks for collisions with the walls and snake body, and runs endgame if true
     function checkEndgame() {
-        if (snake[0].positionX > 400) {
+        if (snake[0].positionX > 420) {
             endgame()
-			} else if (snake[0].positionX < 20) {
+			} else if (snake[0].positionX < 0) {
             endgame()
-            } else if (snake[0].positionY > 400) {
+            } else if (snake[0].positionY > 420) {
             endgame()
-			} else if (snake[0].positionY < 20) {
+			} else if (snake[0].positionY < 0) {
             endgame()
             } 
             else { for (var i = (snake.length - 2); i > 1; i--) {

@@ -11,22 +11,30 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 132, 255, 0.5); 
+    /* opacity: 0.5; */
+    background-color: rgba(0, 132, 255, 0.7); 
     z-index: 1000;
 }
 
 #startbutton {
     position: fixed;
-    left: 50%;
+    left: 40%;
     top: 50%;
     z-index: 1001;
+    font-size: 50px;
+    border-radius: 4px;
+    background-color: white);
 }
 
 #board {
-  width: 100%;
-  height: 100%;
   background-color: black;
   position: fixed;
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .scoreboard {
@@ -34,10 +42,22 @@ body {
     width: 130px;
     height: 40px;
     border: 2px solid white; 
-    position: absolute;
-        left: 50%;
-        top: 40px;
+    position: fixed;
+    left: 45%;
+    /* top: %; */
     z-index: 999; 
+}
+
+#leftScore {
+    position: absolute;
+    text-align: left;
+    left: 10%;
+}
+
+#rightScore {
+    position: absolute;
+    text-align: right;
+    left: 80%;
 }
 
 
@@ -57,7 +77,7 @@ body {
     height: 130px;
     border: 5px;
     position: absolute;
-        right: 20px;
+        right: 10%;
         top: 50%;
 }
 
@@ -67,6 +87,32 @@ body {
     height: 130px;
     border: 5px;
     position: absolute;
-        left: 20px;
+        left: 10%;
         top: 50%;
+}
+
+#endgame {
+    position: fixed;
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    background-color: turquoise;
+    opacity: 0.0;
+    /* top: 50%;
+    left: 50%; */
+    font-family: "Courier New", Courier, monospace;
+    font-size: 60px;
+    text-align: center;
+    z-index: 900;
+}
+
+#gameover {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    opacity: 0;
 }
