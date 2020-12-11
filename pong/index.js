@@ -84,11 +84,12 @@ function runProgram(){
         redrawRightPaddle();
         repositionLeftPaddle();
         redrawLeftPaddle();
-        repositionPingPong();
         redrawPingPong();
+        repositionPingPong();
         pongBlock();
         keepScreen();
         checkEndgame()
+        console.log(pingPong.x)
     }
   
     newFrame(); 
@@ -96,6 +97,7 @@ function runProgram(){
 // keep in screen
 
         function keepScreen() {
+            console.log(pingPong.x, ScreenWidth)
                         // this code will check if the ping pong goes off the screen vertically
                         if (pingPong.y <= 0) {
                             pingPong.speedY = -pingPong.speedY;
@@ -104,13 +106,17 @@ function runProgram(){
                         } 
                         
                         // this code will check if the ping pong goes off the screen horizontally
-                        else if (pingPong.x = 0) {
+                        else if (pingPong.x <= 0) {
+                            console.log(pingPong.x);
                             increasePointsRight();
-                            $('#pingPong').css("left", "50%");
+                            // $('#pingPong').css("left", "500px");
+                            pingPong.x = 500;
                             // pingPong.speedX = - pingPong.speedX;
-                        } else if (pingPong.x = ScreenWidth) {
+                        } else if (pingPong.x >= ScreenWidth) {
+                            console.log("left");
                             increasePointsLeft();
-                            $('#pingPong').css("left", "50%");
+                            // $('#pingPong').css("left", "500px");
+                            pingPong.x = 500;
                             // pingPong.speedX = - pingPong.speedX;
                         } 
 
@@ -153,7 +159,6 @@ function runProgram(){
         console.log("ping pong function called");
     }
 
-
     // checks for collision 
 
     function doCollide(ball, paddle) {
@@ -170,8 +175,8 @@ function runProgram(){
         paddle.topY = paddle.y;
         paddle.rightX = paddle.x + paddle.width;
         paddle.bottomY = paddle.y + paddle.height; 
-	
-        if (ball.rightX > paddle.leftX && ball.leftX && paddle.rightX && ball.topY < paddle.bottomY
+        
+        if (ball.rightX > paddle.leftX && ball.leftX < paddle.rightX && ball.topY > paddle.topY
          && paddle.bottomY > ball.topY) {
             console.log("overlap");
             //pingPong.speedX = pingPong.speedX * -1;
@@ -184,10 +189,11 @@ function runProgram(){
     }
 
     function pongBlock() {
+        console.log(pingPong.bottomY, rightPaddle.topY)
         if ((doCollide(pingPong, rightPaddle)) === true) {
-            pingPong.speedX = pingPong.speedX;
+            pingPong.speedX = -pingPong.speedX;
         } else if ((doCollide(pingPong, leftPaddle)) === true) {
-            pingPong.speedX = pingPong.speedX;
+            pingPong.speedX = -pingPong.speedX;
         } else 
             console.log("no paddle collide");
     }
@@ -238,7 +244,7 @@ function runProgram(){
         }
     }
 
-        function handleKeyDownWASD(event) {
+    function handleKeyDownWASD(event) {
         if (event.which === KEY_WASD.W) {
             console.log("w key pressed");
                 leftPaddle.speedY = -5;

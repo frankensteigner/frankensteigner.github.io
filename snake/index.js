@@ -45,7 +45,7 @@ function runProgram(){
 
   var tail = snake[snake.length - 1]
 
-  var apple = {
+  var apple = apple || {
       positionX: 100,
       positionY: 100,
   }
@@ -71,7 +71,7 @@ function runProgram(){
     eat()
     checkEndgame(); // comment this function out to remove endgame and have snake bounce off walls
     button.addEventListener("click", playAgain);
-  }
+}
 
   newFrame();
 
@@ -80,9 +80,12 @@ function runProgram(){
         $("#gameover").css({opacity: 0});
         // adds the score to below the screen
         $("#gamescore").css({opacity: 1});
+        // resets speed to 0 so the snake doesn't automatically go offscreen
+        velocityX = 0;
+        velocityY = 0;
         // removes the body pieces from the array
         for (var i = (snake.length - 1); i > 0; i--) {
-            snake[i].pop;
+            snake.pop();
         }
         // removes the generated body piece ids
         for (var i = (snake.length - 1); i > 0; i--) {
@@ -91,10 +94,14 @@ function runProgram(){
         // sets snake head back to starting position
         snake[0].positionX = 20;
         snake[0].positionY = 20;
+        // set apple position
+        apple.positionX = 100;
+        apple.positionY = 100;
+
+        $('#apple').css("left", apple.positionX);
+        $('#apple').css("top", apple.positionY);
         // resets event listeners
         $(document).on();
-        // resets interval
-        setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);
         // calls program function again
         runProgram();
     }
